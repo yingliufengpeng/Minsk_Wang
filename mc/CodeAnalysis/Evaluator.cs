@@ -2,7 +2,7 @@ using System;
 
 namespace Minsk_Wang
 {
-    class Evaluator 
+    public sealed class Evaluator 
     {
         public Evaluator(ExpressionSyntax root)
         {
@@ -23,7 +23,7 @@ namespace Minsk_Wang
             // NumberExpression 
             // Console.WriteLine($"root is {root}");
 
-            if (root is NumberExpressionSyntax n) 
+            if (root is LiteralExpressionSyntax n) 
                 return (int) n.NumberToken.Value;
 
             if (root is BinaryExpressionSyntax bin) 

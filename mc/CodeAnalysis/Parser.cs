@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Minsk_Wang
 {
-    class Parser
+    internal sealed class Parser
     {
         private readonly SyntaxToken[] _tokens;
         private int _position;
@@ -50,7 +50,7 @@ namespace Minsk_Wang
             return currnet;
         }
 
-        private SyntaxToken Match(SynaxKind kind) 
+        private SyntaxToken MatchToken(SynaxKind kind) 
         {
             // Console.WriteLine($"number kind is {kind}");
             if (Current.Kind == kind) 
@@ -64,7 +64,7 @@ namespace Minsk_Wang
         public SytaxTree Parse() 
         {
            var express = ParseExpression();
-           var endOfFile = Match(SynaxKind.EndOfFileToken);
+           var endOfFile = MatchToken(SynaxKind.EndOfFileToken);
 
            return new SytaxTree(Diagnostics, express, endOfFile);
 
@@ -119,13 +119,13 @@ namespace Minsk_Wang
             {
                 var left = NextToken(); 
                 var expression = ParseExpression(); 
-                var right = Match(SynaxKind.CloseParenthesisToken); 
+                var right = MatchToken(SynaxKind.CloseParenthesisToken); 
 
                 return new ParenthesizedExpressionsynatx(left, expression, right);
             }
 
-            var numberToken = Match(SynaxKind.NumberToken);
-            return new NumberExpressionSyntax(numberToken);
+            var numberToken = MatchToken(SynaxKind.NumberToken);
+            return new LiteralExpressionSyntax(numberToken);
 
         }
     }

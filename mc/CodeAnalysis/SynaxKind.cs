@@ -1,7 +1,8 @@
 namespace Minsk_Wang
 {
-    enum SynaxKind
+    public enum SynaxKind
     {
+        // Tokens
         NumberToken,
         WhiteSpaceToken,
         CloseParenthesisToken,
@@ -12,6 +13,8 @@ namespace Minsk_Wang
         OpenParenthesisToken,
         BadToken,
         EndOfFileToken,
+
+        // Expression 
         BinaryExpression,
         NumberExpression,
         ParenthesisToken,

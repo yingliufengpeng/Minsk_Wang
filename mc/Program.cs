@@ -6,9 +6,9 @@ namespace Minsk_Wang
 {
     // 1 + 2 + 3 
     // 
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
              bool showTree = false;
 
@@ -32,15 +32,11 @@ namespace Minsk_Wang
                 // var lexer = new Lexer(line);
                 var syntaxTree = SytaxTree.Parse(line); 
 
-                var color = Console.ForegroundColor;
-
                 if (showTree)
                 {
-                   
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     PrettyPrint(syntaxTree.Root, "", true);
-        
-                    Console.ForegroundColor = color;
+                    Console.ResetColor();
                 }
 
                 
@@ -52,7 +48,7 @@ namespace Minsk_Wang
                     {
                         Console.WriteLine(diagnostic);
                     }        
-                    Console.ForegroundColor = color;
+                    Console.ResetColor();
                 } 
                 else 
                 {

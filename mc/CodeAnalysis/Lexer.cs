@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Minsk_Wang
 {
-    class Lexer
+    public sealed class Lexer
     {
         private readonly string _text;
         private int _position;

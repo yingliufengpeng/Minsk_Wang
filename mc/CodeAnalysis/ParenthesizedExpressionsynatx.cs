@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Minsk_Wang
 {
-    sealed class ParenthesizedExpressionsynatx: ExpressionSyntax 
+    public sealed class ParenthesizedExpressionsynatx: ExpressionSyntax 
     {
         public ParenthesizedExpressionsynatx(SyntaxToken openParenteisToken, ExpressionSyntax expression, SyntaxToken closeParenteisToken) 
         {

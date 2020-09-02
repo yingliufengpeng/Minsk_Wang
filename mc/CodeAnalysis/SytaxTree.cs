@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Minsk_Wang
 {
-    sealed class SytaxTree 
+    public sealed class SytaxTree 
     {
         public SytaxTree(IEnumerable<string> diagnostics, ExpressionSyntax root, SyntaxToken endOfFileToken) 
         {
