@@ -1,0 +1,11 @@
+D:\Dotty_repo\Minsk_Repo\Minsk_Wang\mc\bin\Debug\netcoreapp2.1\mc.deps.json
+D:\Dotty_repo\Minsk_Repo\Minsk_Wang\mc\bin\Debug\netcoreapp2.1\mc.runtimeconfig.json
+D:\Dotty_repo\Minsk_Repo\Minsk_Wang\mc\bin\Debug\netcoreapp2.1\mc.runtimeconfig.dev.json
+D:\Dotty_repo\Minsk_Repo\Minsk_Wang\mc\bin\Debug\netcoreapp2.1\mc.dll
+D:\Dotty_repo\Minsk_Repo\Minsk_Wang\mc\bin\Debug\netcoreapp2.1\mc.pdb
+D:\Dotty_repo\Minsk_Repo\Minsk_Wang\mc\obj\Debug\netcoreapp2.1\mc.csprojAssemblyReference.cache
+D:\Dotty_repo\Minsk_Repo\Minsk_Wang\mc\obj\Debug\netcoreapp2.1\mc.csproj.CoreCompileInputs.cache
+D:\Dotty_repo\Minsk_Repo\Minsk_Wang\mc\obj\Debug\netcoreapp2.1\mc.AssemblyInfoInputs.cache
+D:\Dotty_repo\Minsk_Repo\Minsk_Wang\mc\obj\Debug\netcoreapp2.1\mc.AssemblyInfo.cs
+D:\Dotty_repo\Minsk_Repo\Minsk_Wang\mc\obj\Debug\netcoreapp2.1\mc.dll
+D:\Dotty_repo\Minsk_Repo\Minsk_Wang\mc\obj\Debug\netcoreapp2.1\mc.pdb
