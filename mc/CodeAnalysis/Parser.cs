@@ -8,9 +8,46 @@ namespace Minsk_Wang
         private int _position;
         
         private List<string> _diagnostics = new List<string>();
-
+            
         public IEnumerable<string> Diagnostics => _diagnostics;
 
+        private ExpressionSyntax ParseExpression(int parentPrecedence=0)
+        {
+            var left = ParserPrimaryExpression();
+            while (true) 
+            {
+                var precedence = GetBinaryOperatorPrecedence(Current.Kind);
+
+                if(precedence == 0 || precedence <= parentPrecedence)
+                    break; 
+                
+
+                 var opartorToken = NextToken(); 
+                 
+                 var right = ParseExpression(precedence);
+
+                 left = new BinaryExpressionSyntax(left, opartorToken, right);
+            }
+
+            return left;
+        }
+
+
+        private static int GetBinaryOperatorPrecedence(SynaxKind synaxKind)
+        {
+            switch (synaxKind)
+            {
+                case SynaxKind.PLusToken:
+                case SynaxKind.MinusToken:
+                    return 1;
+                case SynaxKind.StarToken:
+                case SynaxKind.SlashToken:
+                    return 2;
+                default:
+                    return 0;
+
+            }
+        }
         public Parser(string text) 
         {
             var tokens = new List<SyntaxToken>();
@@ -70,7 +107,7 @@ namespace Minsk_Wang
 
         }
 
-        private ExpressionSyntax ParseExpression() 
+        private ExpressionSyntax ParseExpression2() 
         {
             return ParseTerm();
         }
