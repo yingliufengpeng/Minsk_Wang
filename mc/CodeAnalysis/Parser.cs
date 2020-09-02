@@ -17,7 +17,7 @@ namespace Minsk_Wang
             var lexer = new Lexer(text);
             SyntaxToken token; 
             do {
-                token = lexer.NextToken(); 
+                token = lexer.Lex(); 
 
                 if (token.Kind != SynaxKind.BadToken && token.Kind != SynaxKind.WhiteSpaceToken)
                 {

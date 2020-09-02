@@ -32,11 +32,8 @@ namespace Minsk_Wang
             }
         }
 
-        public SyntaxToken NextToken()
+        public SyntaxToken Lex()
         {
-            // <number>
-            // + - * / ( )
-            // <whitespace>
 
             if (_position >= _text.Length)
             {
@@ -76,29 +73,20 @@ namespace Minsk_Wang
 
             }
 
-            if (Current == '+')
+            switch (Current)
             {
-                return new SyntaxToken(SynaxKind.PLusToken, _position++, "+", null);
-            }
-            else if (Current == '-')
-            {
-                return new SyntaxToken(SynaxKind.MinusToken, _position++, "-", null);
-            }
-            else if (Current == '*')
-            {
-                return new SyntaxToken(SynaxKind.StarToken, _position++, "*", null);
-            }
-            else if (Current == '/')
-            {
-                return new SyntaxToken(SynaxKind.SlashToken, _position++, "+", null);
-            }
-            else if (Current == '(')
-            {
-                return new SyntaxToken(SynaxKind.OpenParenthesisToken, _position++, "(", null);
-            }
-            else if (Current == ')')
-            {
-                return new SyntaxToken(SynaxKind.CloseParenthesisToken, _position++, ")", null);
+                case '+':
+                    return new SyntaxToken(SynaxKind.PLusToken, _position++, "+", null);
+                case '-':
+                    return new SyntaxToken(SynaxKind.MinusToken, _position++, "-", null);
+                case '*':
+                    return new SyntaxToken(SynaxKind.StarToken, _position++, "*", null);
+                case '/':
+                    return new SyntaxToken(SynaxKind.SlashToken, _position++, "+", null);
+                case '(':
+                    return new SyntaxToken(SynaxKind.OpenParenthesisToken, _position++, "(", null);
+                case ')':
+                    return new SyntaxToken(SynaxKind.CloseParenthesisToken, _position++, ")", null);
             }
 
             _dianostics.Add($"ERROR: bad character input: {Current}");
