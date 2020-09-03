@@ -39,7 +39,7 @@ namespace Minsk_Wang
                 }
                 if (op == SynaxKind.MinusToken) 
                 {
-                    return l_value = r_value;
+                    return l_value - r_value;
                 }
                 if (op == SynaxKind.StarToken) 
                 {
