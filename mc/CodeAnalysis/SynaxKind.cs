@@ -19,6 +19,7 @@ namespace Minsk_Wang
         NumberExpression,
         ParenthesisToken,
         LiteralExpression,
+        UnaryExpressonToken,
     }
 
 }

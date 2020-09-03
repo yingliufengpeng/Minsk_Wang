@@ -2,6 +2,11 @@ using System.Collections.Generic;
 
 namespace Minsk_Wang
 {
+    //
+    // +1 
+    // -1 * -3
+    // -(3 + 3)
+    //
     internal sealed class Parser
     {
         private readonly SyntaxToken[] _tokens;
@@ -145,6 +150,13 @@ namespace Minsk_Wang
                 var right = MatchToken(SynaxKind.CloseParenthesisToken); 
 
                 return new ParenthesizedExpressionsynatx(left, expression, right);
+            } 
+
+            if (Current.Kind == SynaxKind.PLusToken || Current.Kind == SynaxKind.MinusToken) 
+            {
+                var opertator = NextToken();
+                var expression = ParserPrimaryExpression(); 
+                return new UnaryxpressionSyntax(opertator, expression);
             }
 
             var numberToken = MatchToken(SynaxKind.NumberToken);

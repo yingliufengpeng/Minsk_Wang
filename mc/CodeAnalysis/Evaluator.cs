@@ -56,6 +56,28 @@ namespace Minsk_Wang
             {
                 return EvaluateExpression(p.Expression);
             }
+
+            if (root is UnaryxpressionSyntax u)
+            {
+                var i = 0;
+                switch(u.OperatorToken.Kind)
+                {
+                    case SynaxKind.PLusToken:
+                        i = 1;
+                        break;
+                    case SynaxKind.MinusToken:
+                        i = -1;
+                        break; 
+                    default:
+                        new Exception($"Unexpected unary operator {u.OperatorToken.Kind}");
+                        break;
+                }
+
+                // Console.WriteLine($"i is {i}");
+
+                return i * EvaluateExpression(u.Expr);
+            }
+
             throw new Exception($"Unexpected node {Root.Kind}");
         }
     }
