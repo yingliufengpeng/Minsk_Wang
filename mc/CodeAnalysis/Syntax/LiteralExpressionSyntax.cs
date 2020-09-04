@@ -13,24 +13,11 @@ namespace Minsk_Wang
 
         public SyntaxToken NumberToken {get;}
 
-        public override bool Equals(object obj)
-        {
-            return base.Equals(obj);
-        }
-
         public override IEnumerable<SyntaxNode> GetChildren() {
             yield return NumberToken;
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        public override string ToString()
-        {
-            return base.ToString();
-        }
+       
     }
 
 }

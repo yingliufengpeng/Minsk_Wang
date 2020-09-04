@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -32,6 +33,11 @@ namespace Minsk_Wang
                 // var lexer = new Lexer(line);
                 var syntaxTree = SytaxTree.Parse(line); 
 
+                var binder = new Binder(); 
+                var boundExpression = binder.BindExpression(syntaxTree.Root);
+                // IReadOnlyList<string> diagnostics = syntaxTree.Diagnostics;
+                var diagnostics = syntaxTree.Diagnostics.Concat(binder.Diagnostics);
+
                 if (showTree)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -39,9 +45,8 @@ namespace Minsk_Wang
                     Console.ResetColor();
                 }
 
-                
 
-                if (syntaxTree.Diagnostics.Any()) 
+                if (diagnostics.Any()) 
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     foreach (var diagnostic in syntaxTree.Diagnostics)
@@ -52,10 +57,10 @@ namespace Minsk_Wang
                 } 
                 else 
                 {
-                    var evaluator = new Evaluator(syntaxTree.Root);
+                    var evaluator = new Evaluator(boundExpression);
 
                     var result = evaluator.Evaluate();
-
+                    
                     Console.WriteLine($"the result is {result}");
                 }
  

@@ -2,14 +2,14 @@ using System;
 
 namespace Minsk_Wang
 {
-    public sealed class Evaluator 
+    internal sealed class Evaluator 
     {
-        public Evaluator(ExpressionSyntax root)
+        public Evaluator(BoundExpression root)
         {
             Root = root; 
         }
 
-        ExpressionSyntax Root {get;}
+        BoundExpression Root {get;}
 
         public int Evaluate() 
         {
@@ -17,66 +17,55 @@ namespace Minsk_Wang
             return EvaluateExpression(Root);
         }
 
-        private int EvaluateExpression(ExpressionSyntax root)
+        private int EvaluateExpression(BoundExpression root)
         {
             // BinaryExpression 
             // NumberExpression 
             // Console.WriteLine($"root is {root}");
 
-            if (root is LiteralExpressionSyntax n) 
-                return (int) n.NumberToken.Value;
+            if (root is BoundLiteralExpresion n) 
+                return (int) n.Value;
 
-            if (root is BinaryExpressionSyntax bin) 
+            if (root is BoundBinaryExpression bin) 
             {
                 // Console.WriteLine($"bin left is ${bin.Left}");
                 // Console.WriteLine($"bin right is ${bin.Right}");
                 var l_value = EvaluateExpression(bin.Left);
                 var r_value = EvaluateExpression(bin.Right);
-                var op = bin.OperatorToken.Kind;
-                if (op == SynaxKind.PLusToken) 
+                var op = bin.OperatorKind;
+                switch (op)
                 {
-                    return l_value + r_value;
-                }
-                if (op == SynaxKind.MinusToken) 
-                {
-                    return l_value - r_value;
-                }
-                if (op == SynaxKind.StarToken) 
-                {
-                    return l_value * r_value;
-                }
-                if (op == SynaxKind.SlashToken) 
-                {
-                    return l_value / r_value;
-                }
-                throw new Exception($"Unexpected binarry operator {bin.OperatorToken.Kind}");
-            }
-
-            if (root is ParenthesizedExpressionsynatx p) 
-            {
-                return EvaluateExpression(p.Expression);
-            }
-
-            if (root is UnaryxpressionSyntax u)
-            {
-                var i = 0;
-                switch(u.OperatorToken.Kind)
-                {
-                    case SynaxKind.PLusToken:
-                        i = 1;
-                        break;
-                    case SynaxKind.MinusToken:
-                        i = -1;
-                        break; 
+                    case BoundBinaryOperatorKind.Addition:
+                        return l_value + r_value;
+                    case BoundBinaryOperatorKind.Subtraction:
+                        return l_value - r_value;
+                    case BoundBinaryOperatorKind.Multiplcation:
+                        return l_value * r_value;
+                    case BoundBinaryOperatorKind.Division:
+                        return l_value / r_value;
                     default:
-                        new Exception($"Unexpected unary operator {u.OperatorToken.Kind}");
-                        break;
+                        throw new Exception($"Unexpected binarry operator {op}");
+                }
+            }
+
+            // if (root is ParenthesizedExpressionsynatx p) 
+            // {
+            //     return EvaluateExpression(p.Expression);
+            // }
+
+            if (root is BoundUnaryExpression u)
+            {
+                switch(u.OperatorKind)
+                {
+                    case BoundUnaryOperatorKind.Identity:
+                        return EvaluateExpression(u.Operand);
+                    case BoundUnaryOperatorKind.Netation:
+                        return -EvaluateExpression(u.Operand);
+                    default:
+                        throw new Exception($"Unexpected unary operator {u.OperatorKind}");
                 }
 
-                // Console.WriteLine($"i is {i}");
-
-                return i * EvaluateExpression(u.Expr);
-            }
+             }
 
             throw new Exception($"Unexpected node {Root.Kind}");
         }
