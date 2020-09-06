@@ -32,7 +32,7 @@ namespace Minsk_Wang
                 // Console.WriteLine($"bin right is ${bin.Right}");
                 var left = EvaluateExpression(bin.Left);
                 var right = EvaluateExpression(bin.Right);
-                var op = bin.OperatorKind;
+                var op = bin.Op.BoundBinaryOperatorKind;
  
                 switch (op)
                 {
@@ -62,7 +62,8 @@ namespace Minsk_Wang
             if (root is BoundUnaryExpression u)
             {
                 var operand = EvaluateExpression(u.Operand);
-                switch(u.OperatorKind)
+                var op = u.Op.BoundUnaryOperatorKind;
+                switch(op)
                 {
                     case BoundUnaryOperatorKind.Identity:
                         return (int) operand;
@@ -71,7 +72,7 @@ namespace Minsk_Wang
                     case BoundUnaryOperatorKind.LogicalNegation:
                         return !(bool) operand;
                     default:
-                        throw new Exception($"Unexpected unary operator {u.OperatorKind}");
+                        throw new Exception($"Unexpected unary operator {op}");
                 }
 
              }
