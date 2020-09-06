@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Minsk_Wang
@@ -16,6 +17,16 @@ namespace Minsk_Wang
 
         public IEnumerable<string> Diagnostics => _diagnostics;
 
+        
+        public SytaxTree Parse() 
+        {
+           var express = ParseExpression();
+           var endOfFile = MatchToken(SynaxKind.EndOfFileToken);
+
+           return new SytaxTree(Diagnostics, express, endOfFile);
+
+        }
+
         private ExpressionSyntax ParseExpression(int parentPrecedence=0)
         {
             var left = ParserPrimaryExpression();
@@ -27,8 +38,10 @@ namespace Minsk_Wang
                 if(precedence == 0 || precedence <= parentPrecedence)
                     break; 
                 
+                // Console.WriteLine("continue....");
 
                  var opartorToken = NextToken(); 
+                //  Console.WriteLine($"operatorToken {opartorToken}");
                  
                  var right = ParseExpression(precedence);
 
@@ -39,7 +52,7 @@ namespace Minsk_Wang
         }
 
 
-        public Parser(string text) 
+        public Parser(string text)  // generate token stream
         {
             var tokens = new List<SyntaxToken>();
             var lexer = new Lexer(text);
@@ -73,9 +86,9 @@ namespace Minsk_Wang
 
         private SyntaxToken NextToken() 
         {
-            var currnet = Current;
+            var current = Current;
             _position++;
-            return currnet;
+            return current;
         }
 
         private SyntaxToken MatchToken(SynaxKind kind) 
@@ -89,74 +102,79 @@ namespace Minsk_Wang
             return new SyntaxToken(kind, Current.Position, null, null);
         }
 
-        public SytaxTree Parse() 
-        {
-           var express = ParseExpression();
-           var endOfFile = MatchToken(SynaxKind.EndOfFileToken);
 
-           return new SytaxTree(Diagnostics, express, endOfFile);
+        // private ExpressionSyntax ParseExpression2() 
+        // {
+        //     return ParseTerm();
+        // }
 
-        }
+        // private ExpressionSyntax ParseTerm() 
+        // {
+        //     var left = ParseFacotr(); 
 
-        private ExpressionSyntax ParseExpression2() 
-        {
-            return ParseTerm();
-        }
+        //     while (Current.Kind == SynaxKind.PLusToken ||
+        //            Current.Kind == SynaxKind.MinusToken 
+        //         )
+        //     {
+        //         var operaotrToken = NextToken(); 
+        //         var right = ParseFacotr();
 
-        private ExpressionSyntax ParseTerm() 
-        {
-            var left = ParseFacotr(); 
+        //         left = new BinaryExpressionSyntax(left, operaotrToken, right);
 
-            while (Current.Kind == SynaxKind.PLusToken ||
-                   Current.Kind == SynaxKind.MinusToken 
-                )
-            {
-                var operaotrToken = NextToken(); 
-                var right = ParseFacotr();
+        //     }
 
-                left = new BinaryExpressionSyntax(left, operaotrToken, right);
+        //     return left;
 
-            }
+        // }
 
-            return left;
+        // private ExpressionSyntax ParseFacotr()
+        // {
+        //     var left = ParserPrimaryExpression(); 
 
-        }
+        //     while (
+        //            Current.Kind == SynaxKind.StarToken || 
+        //            Current.Kind == SynaxKind.SlashToken
+        //         )
+        //     {
+        //         var operaotrToken = NextToken(); 
+        //         var right = ParserPrimaryExpression();
 
-        private ExpressionSyntax ParseFacotr()
-        {
-            var left = ParserPrimaryExpression(); 
+        //         left = new BinaryExpressionSyntax(left, operaotrToken, right);
 
-            while (
-                   Current.Kind == SynaxKind.StarToken || 
-                   Current.Kind == SynaxKind.SlashToken
-                )
-            {
-                var operaotrToken = NextToken(); 
-                var right = ParserPrimaryExpression();
+        //     }
 
-                left = new BinaryExpressionSyntax(left, operaotrToken, right);
-
-            }
-
-            return left;
-        }
+        //     return left;
+        // }
 
         private ExpressionSyntax ParserPrimaryExpression()
         {
-            if (Current.Kind == SynaxKind.OpenParenthesisToken)
+            switch (Current.Kind)
             {
-                var left = NextToken(); 
-                var expression = ParseExpression(); 
-                var right = MatchToken(SynaxKind.CloseParenthesisToken); 
+                case SynaxKind.OpenParenthesisToken:
+                    {
+                        var left = NextToken();
+                        var expression = ParseExpression();
+                        var right = MatchToken(SynaxKind.CloseParenthesisToken);
 
-                return new ParenthesizedExpressionsynatx(left, expression, right);
-            } 
+                        return new ParenthesizedExpressionsynatx(left, expression, right);
+                    }
 
-            if (Current.Kind == SynaxKind.PLusToken || Current.Kind == SynaxKind.MinusToken) 
-            {
-                var opertator = NextToken();
-                var expression = ParserPrimaryExpression(); 
-                return new UnaryxpressionSyntax(opertator, expression);
+                case SynaxKind.PLusToken:
+                case SynaxKind.MinusToken:
+                    {
+                        var opertator = NextToken();
+                        var expression = ParserPrimaryExpression();
+                        return new UnaryxpressionSyntax(opertator, expression);
+                    }
+                
+                case SynaxKind.TrueKeyword:
+                case SynaxKind.FalseKeyword:
+                    {
+                        var value = Current.Kind == SynaxKind.TrueKeyword ? true : false;
+                        var token = NextToken();
+                        return new LiteralExpressionSyntax(token, value);
+                        // throw new System.Exception("fsdfs");
+                    }
             }
 
             var numberToken = MatchToken(SynaxKind.NumberToken);

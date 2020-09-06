@@ -6,7 +6,8 @@ namespace Minsk_Wang
         Subtraction,
         Multiplcation,
         Division,
-
+        LogicalOr,
+        LogicalAnd,
     }
 
   

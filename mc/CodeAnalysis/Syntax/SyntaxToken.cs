@@ -22,6 +22,11 @@ namespace Minsk_Wang
 
         public object Value { get; }
 
+
+        public override string ToString()
+        {
+            return $"Kind {Kind} Position {Position} Text is {Text} Value is {Value} ";
+        }
     }
 
 }

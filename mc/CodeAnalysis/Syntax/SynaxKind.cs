@@ -20,6 +20,12 @@ namespace Minsk_Wang
         ParenthesisToken,
         LiteralExpression,
         UnaryExpressonToken,
+        TrueKeyword,
+        FalseKeyword,
+        IdentiferToken,
+        BangToken,
+        AmpersandAmpersandToken,
+        PipePipeToken,
     }
 
 }

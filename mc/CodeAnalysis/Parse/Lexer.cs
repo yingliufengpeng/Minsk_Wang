@@ -19,23 +19,27 @@ namespace Minsk_Wang
             _position++;
         }
 
+        private char Peek(int offset) 
+        {
+            var index = _position + offset;
+            if (index >= _text.Length) 
+                return '\0';
+
+            return _text[index];
+        
+            
+        }
+
         public IEnumerable<string> Diagnostics => _dianostics;
 
-        private char Current
-        {
-            get
-            {
-                if (_position >= _text.Length)
-                    return '\0';
+        private char Current => Peek(0);
 
-                return _text[_position];
-            }
-        }
+        private char Lookahead => Peek(1);
 
         public SyntaxToken Lex()
         {
 
-            if (_position >= _text.Length)
+            if (_position >= _text.Length) // Append EndOfFileToken to Parser
             {
                 return new SyntaxToken(SynaxKind.EndOfFileToken, _position, "\0", null);
             }
@@ -56,6 +60,19 @@ namespace Minsk_Wang
 
 
                 return new SyntaxToken(SynaxKind.NumberToken, start, text, value);
+
+            }
+
+            if (char.IsLetter(Current))
+            {
+                var start = _position;
+                while (char.IsLetter(Current))
+                    Next(); 
+                
+                var length = _position - start; 
+                var text = _text.Substring(start, length);
+                var kind = SynatxFacts.GetKeywordKind(text);
+                return new SyntaxToken(kind, start, text, null);
 
             }
 
@@ -87,6 +104,16 @@ namespace Minsk_Wang
                     return new SyntaxToken(SynaxKind.OpenParenthesisToken, _position++, "(", null);
                 case ')':
                     return new SyntaxToken(SynaxKind.CloseParenthesisToken, _position++, ")", null);
+                case '!':
+                    return new SyntaxToken(SynaxKind.BangToken, _position++, "!", null);
+                case '&':
+                    if (Lookahead == '&')
+                        return new SyntaxToken(SynaxKind.AmpersandAmpersandToken, _position += 2, "&&", null);
+                    break;    
+                case '|':
+                    if (Lookahead == '|')
+                        return new SyntaxToken(SynaxKind.PipePipeToken, _position += 2, "||", null);
+                    break;  
             }
 
             _dianostics.Add($"ERROR: bad character input: {Current}");
