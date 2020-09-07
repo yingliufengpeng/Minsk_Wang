@@ -104,8 +104,6 @@ namespace Minsk_Wang
                     return new SyntaxToken(SynaxKind.OpenParenthesisToken, _position++, "(", null);
                 case ')':
                     return new SyntaxToken(SynaxKind.CloseParenthesisToken, _position++, ")", null);
-                case '!':
-                    return new SyntaxToken(SynaxKind.BangToken, _position++, "!", null);
                 case '&':
                     if (Lookahead == '&')
                         return new SyntaxToken(SynaxKind.AmpersandAmpersandToken, _position += 2, "&&", null);
@@ -114,6 +112,20 @@ namespace Minsk_Wang
                     if (Lookahead == '|')
                         return new SyntaxToken(SynaxKind.PipePipeToken, _position += 2, "||", null);
                     break;  
+
+                case '=':
+                    if (Lookahead == '=') 
+                    {
+                        return new SyntaxToken(SynaxKind.EqualsEqualsToken, _position += 2, "==", null);
+                    }
+                    break;
+
+                case '!':
+                    if (Lookahead == '=') 
+                        return new SyntaxToken(SynaxKind.BangEqualsToken, _position += 2, "!=", null);
+                    else
+                        return new SyntaxToken(SynaxKind.BangToken, _position++, "!", null);
+
             }
 
             _dianostics.Add($"ERROR: bad character input: {Current}");

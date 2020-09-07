@@ -8,6 +8,9 @@ namespace Minsk_Wang
         Division,
         LogicalOr,
         LogicalAnd,
+
+        Equals,
+        NotEquals,
     }
 
   

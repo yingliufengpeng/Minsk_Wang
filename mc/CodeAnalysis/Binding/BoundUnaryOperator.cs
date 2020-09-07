@@ -27,13 +27,14 @@ namespace Minsk_Wang
         {
             new BoundUnaryOperator(SynaxKind.PLusToken, BoundUnaryOperatorKind.Identity, typeof(int)),
             new BoundUnaryOperator(SynaxKind.MinusToken, BoundUnaryOperatorKind.Negation, typeof(int)),
-            new BoundUnaryOperator(SynaxKind.BangToken, BoundUnaryOperatorKind.LogicalNegation, typeof(int)),
+            
+            new BoundUnaryOperator(SynaxKind.BangToken, BoundUnaryOperatorKind.LogicalNegation, typeof(bool)),
         };
 
         public static BoundUnaryOperator Bind(SynaxKind synaxKind, Type operandType) {
             foreach(var op in _operators)
             {
-                if (op.SynaxKind == synaxKind  && op.OperandType == operandType)
+                if (op.SynaxKind == synaxKind && op.OperandType == operandType)
                     return op;
             }
 

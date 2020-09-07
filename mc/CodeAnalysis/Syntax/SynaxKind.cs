@@ -26,6 +26,8 @@ namespace Minsk_Wang
         BangToken,
         AmpersandAmpersandToken,
         PipePipeToken,
+        EqualsEqualsToken,
+        BangEqualsToken,
     }
 
 }

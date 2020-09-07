@@ -24,7 +24,7 @@ namespace Minsk_Wang
             // Console.WriteLine($"root is {root}");
 
             if (root is BoundLiteralExpresion n) 
-                return  n.Value;
+                return n.Value;
 
             if (root is BoundBinaryExpression bin) 
             {
@@ -49,6 +49,10 @@ namespace Minsk_Wang
                         return (bool)left && (bool)right;
                     case BoundBinaryOperatorKind.LogicalOr:
                         return (bool)left || (bool)right;
+                    case BoundBinaryOperatorKind.Equals:
+                        return Equals(left, right);                                           
+                    case BoundBinaryOperatorKind.NotEquals:
+                        return !Equals(left, right);   
                     default:
                         throw new Exception($"Unexpected binarry operator {op}");
                 }

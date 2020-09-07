@@ -23,12 +23,33 @@ namespace Minsk_Wang
             }
         }
 
+        private BoundExpression BoundLiteralExpresion(LiteralExpressionSyntax syntax)
+        {
+            var value = syntax.Value;
+            return new BoundLiteralExpresion(value);
+        }
+
+
+        private BoundExpression BoundUnaryExpression(UnaryxpressionSyntax syntax)
+        {
+            var boundOperand = BindExpression(syntax.Expr);
+            var op = BoundUnaryOperator.Bind(syntax.OperatorToken.Kind, boundOperand.Type);
+
+            if (op == null) 
+            {
+                _diagnostics.Add($"Unary operator '{syntax.OperatorToken.Text}' kind '{boundOperand.Kind}' is not defined for type {boundOperand.Type}");
+                return boundOperand;
+            }
+            return new BoundUnaryExpression(op, boundOperand);
+
+        }
+
         private BoundExpression BoundBinaryExpression(BinaryExpressionSyntax syntax)
         {
             var boundLeft = BindExpression(syntax.Left);
             var boundRight = BindExpression(syntax.Right);
-            // var boundOperatorKind = BindBinaryOperatorKind(syntax.OperatorToken.Kind, boundLeft.Type, boundRight.Type);
             var op = BoundBinaryOperator.Bind(syntax.OperatorToken.Kind, boundLeft.Type, boundRight.Type);
+            // Console.WriteLine($"kind {syntax.OperatorToken.Kind} boundLeft {boundLeft.Type} boundRight {boundRight.Type} op is {op} ");
             if (op == null) 
             {
                 _diagnostics.Add($"Binary operator '{syntax.OperatorToken.Text}' is not defined for type {boundLeft.Type} {boundRight}");
@@ -36,30 +57,6 @@ namespace Minsk_Wang
             }
             
             return new BoundBinaryExpression(boundLeft, op, boundRight);
-        }
-
-        
-        private BoundExpression BoundLiteralExpresion(LiteralExpressionSyntax syntax)
-        {
-            var value = syntax.Value;
-            return new BoundLiteralExpresion(value);
-        }
-
-     
-
-        private BoundExpression BoundUnaryExpression(UnaryxpressionSyntax syntax)
-        {
-            var boundOperand = BindExpression(syntax.Expr);
-            // var boundOperatorKind = BindUnaryOperatorKind(syntax.OperatorToken.Kind, boundOperand.Type);
-            var op = BoundUnaryOperator.Bind(syntax.Kind, boundOperand.Type);
-
-            if (op == null) 
-            {
-                _diagnostics.Add($"Unary operator '{syntax.OperatorToken.Text}' is not defined for type {boundOperand.Type}");
-                return boundOperand;
-            }
-            return new BoundUnaryExpression(op, boundOperand);
-
         }
     }
  

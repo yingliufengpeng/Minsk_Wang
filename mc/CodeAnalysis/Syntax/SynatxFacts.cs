@@ -10,16 +10,20 @@ namespace Minsk_Wang
             {
                 case SynaxKind.StarToken:
                 case SynaxKind.SlashToken:
-                    return 5;
+                    return 6;
                 case SynaxKind.PLusToken:
                 case SynaxKind.MinusToken:
-                    return 4;
+                    return 5;
                 case SynaxKind.UnaryExpressonToken:
+                    return 4;
+                case SynaxKind.EqualsEqualsToken:
+                case SynaxKind.BangEqualsToken:
                     return 3;
                 case SynaxKind.AmpersandAmpersandToken:
                     return 2;
                 case SynaxKind.PipePipeToken: 
                     return 1;
+                
                 default:
                     return 0;
 

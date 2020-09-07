@@ -175,6 +175,13 @@ namespace Minsk_Wang
                         return new LiteralExpressionSyntax(token, value);
                         // throw new System.Exception("fsdfs");
                     }
+
+                case SynaxKind.BangToken:
+                {
+                    var opertator = NextToken();
+                    var expression = ParserPrimaryExpression();
+                    return new UnaryxpressionSyntax(opertator, expression);
+                }
             }
 
             var numberToken = MatchToken(SynaxKind.NumberToken);

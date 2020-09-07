@@ -13,7 +13,7 @@ namespace Minsk_Wang
         }
 
         public override BoundeNodeKind Kind => BoundeNodeKind.BinaryExpression;
-        public override Type Type  => Left.Type;
+        public override Type Type  => Op.ResultType;
 
         public BoundExpression Left { get; }
         public BoundBinaryOperator Op { get; }
